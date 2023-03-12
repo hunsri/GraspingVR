@@ -13,6 +13,8 @@ namespace Manus.Interaction
 	{
 		public bool IsGrabbed { get; private set; }
 
+		public bool IsGrabbable = true;
+
 		/// <summary>
 		/// Called when this starts getting grabbed.
 		/// </summary>
@@ -56,108 +58,119 @@ namespace Manus.Interaction
 		/// <param name="p_Object">Contains information about the grab</param>
 		public void OnGrabbedFixedUpdate(GrabbedObject p_Object)
 		{
-			Vector3 t_Pos = Vector3.zero;
-
-			Quaternion t_Rot = transform.rotation;
-			if (p_Object.hands.Count == 1)
+			if(!IsGrabbable)
 			{
-				GrabbedObject.Info t_Info = p_Object.hands[0];
-				t_Pos = t_Info.interacter.hand.transform.TransformPoint(t_Info.handToObject);
-				t_Rot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+				GrabbedObject grabbedObject = this.GetComponent<GrabbedObject>();
+
+				if(grabbedObject != null){
+					grabbedObject.enabled = false;
+				}
 			}
 			else
 			{
-				t_Rot = Quaternion.identity;
-				Quaternion t_RRot;
-				Quaternion t_MRot;
-				GrabbedObject.Info t_Info = p_Object.hands[p_Object.hands.Count - 1];
+				Vector3 t_Pos = Vector3.zero;
 
-				Quaternion t_PRRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
-				Vector3 t_PCAPt = t_Info.nearestColliderPoint;
-				Vector3 t_PIPos = t_Info.interacter.transform.position;
-				for (int i = 0; i < p_Object.hands.Count; i++)
+				Quaternion t_Rot = transform.rotation;
+				if (p_Object.hands.Count == 1)
 				{
-					t_Info = p_Object.hands[i];
-					t_RRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+					GrabbedObject.Info t_Info = p_Object.hands[0];
+					t_Pos = t_Info.interacter.hand.transform.TransformPoint(t_Info.handToObject);
+					t_Rot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+				}
+				else
+				{
+					t_Rot = Quaternion.identity;
+					Quaternion t_RRot;
+					Quaternion t_MRot;
+					GrabbedObject.Info t_Info = p_Object.hands[p_Object.hands.Count - 1];
 
-					Vector3 t_CAPt = t_Info.nearestColliderPoint;
-					Vector3 t_IPos = t_Info.interacter.transform.position;
+					Quaternion t_PRRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+					Vector3 t_PCAPt = t_Info.nearestColliderPoint;
+					Vector3 t_PIPos = t_Info.interacter.transform.position;
+					for (int i = 0; i < p_Object.hands.Count; i++)
+					{
+						t_Info = p_Object.hands[i];
+						t_RRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
 
-					Vector3 t_Before = t_CAPt - t_PCAPt;
-					Vector3 t_After = transform.InverseTransformPoint(t_IPos) - transform.InverseTransformPoint(t_PIPos);
-					t_MRot = transform.rotation * Quaternion.FromToRotation(t_Before, t_After);
+						Vector3 t_CAPt = t_Info.nearestColliderPoint;
+						Vector3 t_IPos = t_Info.interacter.transform.position;
 
-					//Determine the blend through Rotation comparison, distance to original grab point and hand direction
-					float t_Dist = 1.0f - Mathf.Clamp01(Vector3.SqrMagnitude(transform.TransformPoint(t_CAPt) - t_IPos) / 0.01f); //10cm
-					float t_Blend = Quaternion.Dot(t_RRot, t_PRRot);
-					t_Blend = Mathf.Clamp01((t_Blend * 6.0f) - 5.0f);
-					t_Blend *= t_Dist;
-					t_Blend *= Mathf.Clamp01(Vector3.Dot(t_Info.interacter.transform.forward, transform.TransformDirection(t_Info.objectInteractorForward)));
+						Vector3 t_Before = t_CAPt - t_PCAPt;
+						Vector3 t_After = transform.InverseTransformPoint(t_IPos) - transform.InverseTransformPoint(t_PIPos);
+						t_MRot = transform.rotation * Quaternion.FromToRotation(t_Before, t_After);
 
-					t_PCAPt = t_CAPt;
-					t_PIPos = t_IPos;
-					t_PRRot = t_RRot;
-					t_Rot = Quaternion.Lerp(t_Rot, Quaternion.Lerp(t_MRot, t_RRot, t_Blend), 1.0f / (i + 1));
+						//Determine the blend through Rotation comparison, distance to original grab point and hand direction
+						float t_Dist = 1.0f - Mathf.Clamp01(Vector3.SqrMagnitude(transform.TransformPoint(t_CAPt) - t_IPos) / 0.01f); //10cm
+						float t_Blend = Quaternion.Dot(t_RRot, t_PRRot);
+						t_Blend = Mathf.Clamp01((t_Blend * 6.0f) - 5.0f);
+						t_Blend *= t_Dist;
+						t_Blend *= Mathf.Clamp01(Vector3.Dot(t_Info.interacter.transform.forward, transform.TransformDirection(t_Info.objectInteractorForward)));
+
+						t_PCAPt = t_CAPt;
+						t_PIPos = t_IPos;
+						t_PRRot = t_RRot;
+						t_Rot = Quaternion.Lerp(t_Rot, Quaternion.Lerp(t_MRot, t_RRot, t_Blend), 1.0f / (i + 1));
+					}
+
+					t_Rot = Quaternion.Lerp(transform.rotation, t_Rot, 0.4f);
+
+					/*
+					Quaternion t_PRRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+					Vector3 t_PCAPt = transform.TransformPoint(t_Info.nearestColliderPoint);
+					Vector3 t_PIPos = t_Info.interacter.transform.position;
+					for (int i = 0; i < _Object.hands.Count; i++)
+					{
+						t_Info = _Object.hands[i];
+						t_RRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
+
+						Vector3 t_CAPt = transform.TransformPoint(t_Info.nearestColliderPoint);
+						Vector3 t_IPos = t_Info.interacter.transform.position;
+
+						Vector3 t_Before = t_CAPt - t_PCAPt;
+						Vector3 t_After = t_IPos - t_PIPos;
+						t_MRot = transform.rotation * Quaternion.FromToRotation(transform.InverseTransformDirection(t_Before), transform.InverseTransformDirection(t_After));
+
+						//Determine the blend through Rotation comparison, distance to original grab point and hand direction
+						float t_Dist = 1.0f - Mathf.Clamp01(Vector3.SqrMagnitude(t_CAPt - t_IPos) / 0.01f); //10cm
+						float t_Blend = Quaternion.Dot(t_RRot, t_PRRot);
+						t_Blend = Mathf.Clamp01((t_Blend * 6.0f) - 5.0f);
+						t_Blend *= t_Dist;
+						float t_FFwd = Vector3.Dot(t_Info.interacter.transform.forward, transform.TransformDirection(t_Info.objectInteractorForward));
+						t_Blend *= Mathf.Clamp01(t_FFwd * t_FFwd);
+
+						t_PCAPt = t_CAPt;
+						t_PIPos = t_IPos;
+						t_PRRot = t_RRot;
+						t_Rot = Quaternion.Lerp(t_Rot, Quaternion.Lerp(t_MRot, t_RRot, t_Blend), 1.0f / (i + 1));
+					}
+
+					//t_Rot = Quaternion.Lerp(transform.rotation, t_Rot, 0.4f);
+					*/
+
+					for (int i = 0; i < p_Object.hands.Count; i++)
+					{
+						t_Info = p_Object.hands[i];
+						Vector3 t_NP = transform.TransformPoint(t_Info.nearestColliderPoint);
+						Vector3 t_P = t_Info.interacter.transform.position - t_NP;
+						t_Pos += t_P;
+						Debug.DrawLine(transform.position, t_NP);
+					}
+					t_Pos /= p_Object.hands.Count;
+					t_Pos = transform.position + t_Pos;
 				}
 
-				t_Rot = Quaternion.Lerp(transform.rotation, t_Rot, 0.4f);
-
-				/*
-				Quaternion t_PRRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
-				Vector3 t_PCAPt = transform.TransformPoint(t_Info.nearestColliderPoint);
-				Vector3 t_PIPos = t_Info.interacter.transform.position;
-				for (int i = 0; i < _Object.hands.Count; i++)
+				if (p_Object.rigidBody)
 				{
-					t_Info = _Object.hands[i];
-					t_RRot = t_Info.interacter.hand.transform.rotation * t_Info.handToObjectRotation;
-
-					Vector3 t_CAPt = transform.TransformPoint(t_Info.nearestColliderPoint);
-					Vector3 t_IPos = t_Info.interacter.transform.position;
-
-					Vector3 t_Before = t_CAPt - t_PCAPt;
-					Vector3 t_After = t_IPos - t_PIPos;
-					t_MRot = transform.rotation * Quaternion.FromToRotation(transform.InverseTransformDirection(t_Before), transform.InverseTransformDirection(t_After));
-
-					//Determine the blend through Rotation comparison, distance to original grab point and hand direction
-					float t_Dist = 1.0f - Mathf.Clamp01(Vector3.SqrMagnitude(t_CAPt - t_IPos) / 0.01f); //10cm
-					float t_Blend = Quaternion.Dot(t_RRot, t_PRRot);
-					t_Blend = Mathf.Clamp01((t_Blend * 6.0f) - 5.0f);
-					t_Blend *= t_Dist;
-					float t_FFwd = Vector3.Dot(t_Info.interacter.transform.forward, transform.TransformDirection(t_Info.objectInteractorForward));
-					t_Blend *= Mathf.Clamp01(t_FFwd * t_FFwd);
-
-					t_PCAPt = t_CAPt;
-					t_PIPos = t_IPos;
-					t_PRRot = t_RRot;
-					t_Rot = Quaternion.Lerp(t_Rot, Quaternion.Lerp(t_MRot, t_RRot, t_Blend), 1.0f / (i + 1));
+					p_Object.rigidBody.velocity = Vector3.zero;
+					p_Object.rigidBody.angularVelocity = Vector3.zero;
+					p_Object.rigidBody.MovePosition(t_Pos);
+					p_Object.rigidBody.MoveRotation(t_Rot);
 				}
-
-				//t_Rot = Quaternion.Lerp(transform.rotation, t_Rot, 0.4f);
-				 */
-
-				for (int i = 0; i < p_Object.hands.Count; i++)
+				else
 				{
-					t_Info = p_Object.hands[i];
-					Vector3 t_NP = transform.TransformPoint(t_Info.nearestColliderPoint);
-					Vector3 t_P = t_Info.interacter.transform.position - t_NP;
-					t_Pos += t_P;
-					Debug.DrawLine(transform.position, t_NP);
+					transform.position = t_Pos;
+					transform.rotation = t_Rot;
 				}
-				t_Pos /= p_Object.hands.Count;
-				t_Pos = transform.position + t_Pos;
-			}
-
-			if (p_Object.rigidBody)
-			{
-				p_Object.rigidBody.velocity = Vector3.zero;
-				p_Object.rigidBody.angularVelocity = Vector3.zero;
-				p_Object.rigidBody.MovePosition(t_Pos);
-				p_Object.rigidBody.MoveRotation(t_Rot);
-			}
-			else
-			{
-				transform.position = t_Pos;
-				transform.rotation = t_Rot;
 			}
 		}
 	}

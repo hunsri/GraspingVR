@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using Manus.Interaction;
+using Manus.InteractionScene;
 using UnityEngine;
 
 public class OverlapDetector : MonoBehaviour
@@ -30,31 +30,30 @@ public class OverlapDetector : MonoBehaviour
     {
         if(_isOverlapping && _overlappingObject != null) {
             
-            CustomGrabbableObject script = _overlappingObject.GetComponent<CustomGrabbableObject>();
-            if(!script.IsGrabbed)
+            CustomGrabbableObject customGrabbableObject = _overlappingObject.GetComponent<CustomGrabbableObject>();
+            if(!customGrabbableObject.IsGrabbed && customGrabbableObject.IsGrabbable)
             {
+                customGrabbableObject.IsGrabbable = false;
 
-                StartCoroutine(TeleportDelayCoroutine());
+                FixateAndAnalyseObject();
             }
         }
     }
 
-    IEnumerator TeleportDelayCoroutine()
+    private void FixateAndAnalyseObject()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
-
         if(_overlappingObject != null)
         {
-            _overlappingObject.transform.position = _overlappingObject.transform.parent.position;
-            _overlappingObject.transform.rotation = _overlappingObject.transform.parent.rotation;
-            
-            ResetObject();
+            TransformationAnalyser.Analyse(_overlappingObject.transform, this.transform);
         }
     }
 
     private void ResetObject()
     {
         _isOverlapping = false;
+
+        _overlappingObject.GetComponent<CustomGrabbableObject>().IsGrabbable = true;
+
         _overlappingObject = null;
     }
 
