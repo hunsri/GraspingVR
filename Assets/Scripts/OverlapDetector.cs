@@ -9,6 +9,8 @@ public class OverlapDetector : MonoBehaviour
 
     private GameObject _overlappingObject;
 
+    private bool _hasFixatedObject;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Grabbable")
@@ -23,6 +25,8 @@ public class OverlapDetector : MonoBehaviour
         if (other.tag == "Grabbable")
         {
             ResetObject();
+            
+            ResetDetector();
         }
     }
 
@@ -45,6 +49,7 @@ public class OverlapDetector : MonoBehaviour
         if(_overlappingObject != null)
         {
             TransformationAnalyser.Analyse(_overlappingObject.transform, this.transform);
+            _hasFixatedObject = true;
         }
     }
 
@@ -55,6 +60,23 @@ public class OverlapDetector : MonoBehaviour
         _overlappingObject.GetComponent<CustomGrabbableObject>().IsGrabbable = true;
 
         _overlappingObject = null;
+    }
+
+    private void ResetDetector()
+    {
+        if(_hasFixatedObject)
+        {
+            //rotating the destination for the next placement
+            if(this.GetComponent<DestinationRotator>().Rotate())
+            {
+                _hasFixatedObject = false;
+            }
+            else
+            {   
+                //disabling the detector once all rotations have taken place
+                transform.parent.parent.gameObject.SetActive(false);
+            }
+        }
     }
 
 }
