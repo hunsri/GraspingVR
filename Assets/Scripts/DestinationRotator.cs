@@ -4,16 +4,36 @@ public class DestinationRotator : MonoBehaviour
 {
     private Quaternion[] rotations =
     {
-        Quaternion.Euler(new Vector3(87, 62, 51)),
-        Quaternion.Euler(new Vector3(22, 68, 47)),
-        Quaternion.Euler(new Vector3(52, 18, 57)),
-        Quaternion.Euler(new Vector3(67, 79, 36)),
-        Quaternion.Euler(new Vector3(16, 11, 47)),
-        Quaternion.Euler(new Vector3(8, 31, 39)),
-        Quaternion.Euler(new Vector3(44, 59, 24)),
-        Quaternion.Euler(new Vector3(13, 41, 26)),
-        Quaternion.Euler(new Vector3(53, 63, 21)),
-        Quaternion.Euler(new Vector3(46, 37, 46)),
+        Quaternion.Euler(new Vector3(37, 19, 34)),
+        Quaternion.Euler(new Vector3(3, 0, 35)),
+        Quaternion.Euler(new Vector3(2, 29, 41)),
+        Quaternion.Euler(new Vector3(34, 19, 4)),
+        Quaternion.Euler(new Vector3(38, 26, 11)),
+        Quaternion.Euler(new Vector3(20, 32, 26)),
+        Quaternion.Euler(new Vector3(44, 12, 1)),
+        Quaternion.Euler(new Vector3(38, 35, 41)),
+        Quaternion.Euler(new Vector3(9, 1, 28)),
+        Quaternion.Euler(new Vector3(42, 40, 6)),
+        Quaternion.Euler(new Vector3(7, 13, 35)),
+        Quaternion.Euler(new Vector3(2, 4, 6)),
+        Quaternion.Euler(new Vector3(32, 26, 8)),
+        Quaternion.Euler(new Vector3(36, 30, 5)),
+        Quaternion.Euler(new Vector3(9, 1, 2)),
+        Quaternion.Euler(new Vector3(3, 39, 14)),
+        Quaternion.Euler(new Vector3(2, 0, 25)),
+        Quaternion.Euler(new Vector3(40, 23, 3)),
+        Quaternion.Euler(new Vector3(1, 27, 24)),
+        Quaternion.Euler(new Vector3(42, 17, 9)),
+        Quaternion.Euler(new Vector3(42, 17, 19)),
+        Quaternion.Euler(new Vector3(16, 35, 42)),
+        Quaternion.Euler(new Vector3(20, 42, 40)),
+        Quaternion.Euler(new Vector3(30, 7, 40)),
+        Quaternion.Euler(new Vector3(13, 24, 18)),
+        Quaternion.Euler(new Vector3(20, 42, 26)),
+        Quaternion.Euler(new Vector3(6, 39, 44)),
+        Quaternion.Euler(new Vector3(27, 30, 28)),
+        Quaternion.Euler(new Vector3(13, 18, 22)),
+        Quaternion.Euler(new Vector3(6, 33, 22))
     };
 
     private int _round = 0;
@@ -46,13 +66,5 @@ public class DestinationRotator : MonoBehaviour
     void Start()
     {
         Rotate();
-
-        Debug.Log("start");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
