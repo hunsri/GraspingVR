@@ -1,6 +1,4 @@
-using System.Collections;
 using Manus.Interaction;
-using Manus.InteractionScene;
 using UnityEngine;
 
 public class OverlapDetector : MonoBehaviour

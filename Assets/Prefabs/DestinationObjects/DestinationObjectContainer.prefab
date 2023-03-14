@@ -50,6 +50,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExperimentCubeTemplate
       objectReference: {fileID: 0}
+    - target: {fileID: 1488366537436765502, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bf8ce83edc64d8b499da48d5e4397e1b, type: 2}
     - target: {fileID: 5238579370560875877, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -95,9 +99,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6719516132627012058, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719516132627012058, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: dfdd999a45136b0429d978bb0d2b4cab, type: 2}
+    - target: {fileID: 7111361121412505116, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 97e98e74231026d4493690f9be656670, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e87a8ec4ea865b4dbf43ccd4abda5af, type: 3}
 --- !u!1 &7959981086297949299 stripped
