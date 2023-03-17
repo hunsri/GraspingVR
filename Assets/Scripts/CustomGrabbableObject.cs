@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Manus.Haptics;
+using UnityEngine;
 
 namespace Manus.Interaction
 {
@@ -20,7 +21,15 @@ namespace Manus.Interaction
 		/// </summary>
 		/// <param name="p_Object">Contains information about the grab</param>
 		public void OnGrabbedStart(GrabbedObject p_Object)
-		{
+		{	
+			//Debug.Log(p_Object.hands[0].interacter.gameObject.name);
+
+			//GrabbedObject.Info t_Info = p_Object.hands[0];
+			//GrabbedObject.Info t_Info = p_Object.hands[0];
+
+			//if(t_Info != null)
+			//Debug.Log(t_Info.interacter.gameObject.name);
+
 			IsGrabbed = true;
 		}
 
@@ -40,6 +49,12 @@ namespace Manus.Interaction
 		/// <param name="p_Info">Contains information about the added grabber</param>
 		public void OnAddedInteractingInfo(GrabbedObject p_Object, GrabbedObject.Info p_Info)
 		{
+			CustomHandHaptics customHaptics = p_Info.interacter.hand.gameObject.GetComponent<CustomHandHaptics>();
+
+			if(customHaptics != null)
+			{
+				customHaptics.RumbleActive = true;
+			}
 		}
 
 		/// <summary>
@@ -49,6 +64,12 @@ namespace Manus.Interaction
 		/// <param name="p_Info">Contains information about the removed grabber</param>
 		public void OnRemovedInteractingInfo(GrabbedObject p_Object, GrabbedObject.Info p_Info)
 		{
+			CustomHandHaptics customHaptics = p_Info.interacter.hand.gameObject.GetComponent<CustomHandHaptics>();
+
+			if(customHaptics != null)
+			{
+				customHaptics.RumbleActive = false;
+			}
 		}
 
 		/// <summary>
