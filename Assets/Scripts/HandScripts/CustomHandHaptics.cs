@@ -14,7 +14,7 @@ namespace Manus.Haptics
 		Hand.Hand m_Hand;
 		FingerHaptics[] m_Fingers;
 		
-		//set on the lowest possible haptic feedback intensity
+		//set on the lowest noticeable haptic feedback intensity
 		private float _grabIntensity = 0.0315f;
 
 		public bool RumbleActive {get; set;}
