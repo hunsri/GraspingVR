@@ -1,11 +1,13 @@
 using System.IO;
 using UnityEngine;
+using System.Globalization;
 
 public static class ResultExporter
 {
-    private static string _resolution = "f3";
+    private static string _resolution = "f4";
+    private static CultureInfo _numberFormat = new CultureInfo("en-US");
 
-    private static string _filePath = Application.persistentDataPath + "/test.csv";
+    private static string _filePath = Application.persistentDataPath + "/TestData.csv";
 
     public static void Export(Vector3 position, Vector3 rotation, float positionDelta, float rotationDelta)
     {
@@ -15,8 +17,8 @@ public static class ResultExporter
         csv += VectorToCSVLine(position);
         csv += VectorToCSVLine(rotation);
         csv += "; ";
-        csv += positionDelta.ToString(_resolution) + "; ";
-        csv += rotationDelta.ToString(_resolution);
+        csv += positionDelta.ToString(_resolution, _numberFormat) + "; ";
+        csv += rotationDelta.ToString(_resolution, _numberFormat);
 
         WriteToFile(csv);
     }
@@ -25,9 +27,9 @@ public static class ResultExporter
     {
         string ret = "";
 
-        ret += vec3.x.ToString(_resolution) + "; ";
-        ret += vec3.y.ToString(_resolution) + "; ";
-        ret += vec3.z.ToString(_resolution) + "; ";
+        ret += vec3.x.ToString(_resolution, _numberFormat) + "; ";
+        ret += vec3.y.ToString(_resolution, _numberFormat) + "; ";
+        ret += vec3.z.ToString(_resolution, _numberFormat) + "; ";
 
         return ret;
     }
