@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/DefaultScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: Assets/Scenes/PilotTest/TactileOff.unity
-    guid: b0b17922b53ccb3409f416dafe149761
+    path: Assets/Scenes/TestScenes/TactilePartialTesting.unity
+    guid: 67237f274225d1c45be05fc81cdb3ee7
   - enabled: 1
-    path: Assets/Scenes/PilotTest/TactileOn.unity
-    guid: 716b09605805e4449814c7bdeeca12c4
+    path: Assets/Scenes/TestScenes/TactileFullTesting.unity
+    guid: 87c04bd0d87d0aa498dbedac2031447c
+  - enabled: 0
+    path: Assets/Scenes/TestScenes/TactileOffTesting.unity
+    guid: aa8fc32922c307b4bbaf8e69700a8997
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4fa09156355038240a42e280e1361b13, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 6f924c259ac5c5944b26aa36675e4e39, type: 2}

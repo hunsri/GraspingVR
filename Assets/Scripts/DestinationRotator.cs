@@ -23,17 +23,7 @@ public class DestinationRotator : MonoBehaviour
         Quaternion.Euler(new Vector3(2, 0, 25)),
         Quaternion.Euler(new Vector3(40, 23, 3)),
         Quaternion.Euler(new Vector3(1, 27, 24)),
-        Quaternion.Euler(new Vector3(42, 17, 9)),
-        Quaternion.Euler(new Vector3(42, 17, 19)),
-        Quaternion.Euler(new Vector3(16, 35, 42)),
-        Quaternion.Euler(new Vector3(20, 42, 40)),
-        Quaternion.Euler(new Vector3(30, 7, 40)),
-        Quaternion.Euler(new Vector3(13, 24, 18)),
-        Quaternion.Euler(new Vector3(20, 42, 26)),
-        Quaternion.Euler(new Vector3(6, 39, 44)),
-        Quaternion.Euler(new Vector3(27, 30, 28)),
-        Quaternion.Euler(new Vector3(13, 18, 22)),
-        Quaternion.Euler(new Vector3(6, 33, 22))
+        Quaternion.Euler(new Vector3(42, 17, 9))
     };
 
     private int _round = 0;
